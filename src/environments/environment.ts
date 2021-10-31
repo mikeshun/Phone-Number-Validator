@@ -3,8 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+
+  production: false,
+
+
+
 };
+
+export class API_URLS{
+  public static API_FORMS_VALIDATE: string = "http://apilayer.net/api/validate";
+  public static API_FETCH_COUNTRIES: string = " https://restcountries.com/v2/all";
+}
+
 
 /*
  * For easier debugging in development mode, you can import the following file

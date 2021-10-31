@@ -3,6 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { ConfirmBoxConfigModule, NgxAwesomePopupModule } from '@costlydeveloper/ngx-awesome-popup';
+
 
 @NgModule({
   declarations: [
@@ -10,7 +14,12 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule ,
+    BrowserAnimationsModule,
+    NgxAwesomePopupModule.forRoot(),
+    ConfirmBoxConfigModule.forRoot()
+
   ],
   providers: [],
   bootstrap: [AppComponent]
