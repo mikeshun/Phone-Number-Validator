@@ -3,21 +3,23 @@
 
 .formCard{
     margin-top: 150px;
-    width: 280px;
+    width: 570px;
     height: 350px;
 }
 
 form{
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .submitbutton{
-    width: 280px;
+    width: 250px;
+    margin-left: 12px;
 }
 
 .myformfield{
-    width: 280px;
+    width: 250px;
     border-radius: 20px;
+    margin-left: 12px;
     
   
    
@@ -26,10 +28,17 @@ form{
 .description{
     margin-top: -20px;
     margin-left: -23px;
-    color: #a7a5a5;
+    color: #6d6c6c;
+    font-weight: bold;
+    font-size: 13px;
 }
 
 .welcome{
     margin-left: -23px; 
     color: blue;
+}
+
+.errormssg{
+    margin-top: -30px;
+     margin-left: 50px;
 }

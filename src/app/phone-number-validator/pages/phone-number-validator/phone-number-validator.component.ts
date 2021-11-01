@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmBoxInitializer, DialogLayoutDisplay } from '@costlydeveloper/ngx-awesome-popup';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { CountriesInterface } from 'src/app/shared/models/countries-interface.model';
 import { ValidateInterface } from 'src/app/shared/models/validate-interface.model';
 import { PhoneNumberValidatorService } from '../../services/phone-number-validator.service';
@@ -13,21 +14,30 @@ import { PhoneNumberValidatorService } from '../../services/phone-number-validat
 })
 export class PhoneNumberValidatorComponent implements OnInit {
 
-  item = {} as ValidateInterface
+  validations = {} as ValidateInterface
   myForm = {} as FormGroup
-  mItems = {} as CountriesInterface
-  mmItems:any
+  countries! : CountriesInterface[]
+ 
+
+  
 
   
  
   constructor( 
+    private spinner: NgxSpinnerService,
     private fb: FormBuilder,
-    private countriesServ: PhoneNumberValidatorService) { 
+    private validatorService: PhoneNumberValidatorService) { 
       
     }
 
   ngOnInit(): void {
+
+  
+   
+
+
     this.buildForm();
+    this.myForm
     this.getCountryCodes()
   }
 
@@ -35,26 +45,32 @@ export class PhoneNumberValidatorComponent implements OnInit {
   buildForm() {
     this.myForm = this.fb.group(
       {
-        PhoneNumber: ['', [Validators.required]],
+        PhoneNumber: ['',  [Validators.required,  Validators.pattern("^[0-9]*$")]],
         Country_Code: [''],
       },
     
     );
   }
 
+  get f() { return this.myForm.controls; }
+
+
   onSave(){
+
+   
     var formRequest : ValidateInterface = this.myForm.value
 
-    this.item.PhoneNumber = formRequest.PhoneNumber;
-    this.item.Country_Code = formRequest.Country_Code;
-    this.item.Access_Key = "eb588dbf70cb81df1c8d374269db9d18"
+    this.validations.PhoneNumber = formRequest.PhoneNumber;
+    this.validations.Country_Code = formRequest.Country_Code;
+    this.validations.Access_Key = "eb588dbf70cb81df1c8d374269db9d18"
 
-    this.countriesServ.sendNumber(this.item).subscribe(
+    this.validatorService.sendNumber(this.validations).subscribe(
       (res: any) => {
+      
         if (res.success || res.valid) {
 
           const alertBox = new ConfirmBoxInitializer();
-          alertBox.setMessage("Great! your number was successfully submitted");
+          alertBox.setMessage("Great! your number is valid and has been submitted");
           alertBox.setButtonLabels('Okay');
       
        
@@ -68,10 +84,10 @@ export class PhoneNumberValidatorComponent implements OnInit {
           });
         
           console.log('You can continue ')
-        } else{
+        }else if(!res.success || res.invalid){
 
           const alertBox = new ConfirmBoxInitializer();
-          alertBox.setMessage(res?.error?.info );
+          alertBox.setMessage(res?.error?.info + " \n Can't be Submittted!!"  );
           alertBox.setButtonLabels('Okay');
       
         
@@ -91,14 +107,15 @@ export class PhoneNumberValidatorComponent implements OnInit {
         console.log('System error. Contact  Administrator')
       }
     )
+   
     this.myForm.reset()
   }
 
   
   getCountryCodes(){
-    this.countriesServ.fetchCountryCodes().subscribe(
-      p =>{
-        this.mmItems = p
+    this.validatorService.fetchCountryCodes().subscribe(
+      (p:any) =>{
+        this.countries = p
         console.log(p)
        
       }

@@ -1,45 +1,56 @@
 
-<div fxLayout="row" 
-    
-fxLayoutAlign="space-around center"
- >
+<div fxLayout="row" fxLayoutAlign="space-around center">
 
 
- <mat-card class="formCard">
-     <mat-card-header>
-        <div fxLayout="column">
-            <h1 class="welcome">Hello!</h1>
-            <p class="description">Please enter your number and select your country code </p>
-          </div>
-     </mat-card-header>
-    <mat-card-content>
-        <div class="myform">
-            <form [formGroup]= "myForm" (ngSubmit)="onSave()" >
-                <mat-form-field class="myformfield" appearance="outline">
-                    <mat-label>Phone</mat-label>
-                    <input matInput formControlName="PhoneNumber"  >
-                  </mat-form-field><br>
+    <mat-card class="formCard">
 
-                  <mat-form-field class="myformfield" appearance="outline" style="width: 250px;">
-                    <mat-label style="font-size: 13px;">Country Code</mat-label>
-                    <mat-select  formControlName="Country_Code" name="CountryCode">
-                        <mat-option *ngFor="let mp of mmItems "  [value]="mp.alpha2Code">{{mp.alpha2Code}}</mat-option>
-                    </mat-select>
-                  </mat-form-field><br>
+        <div fxLayout="row">
+            <div>
+                <img style="height: 300px; width: 300px; margin-top: 30px;" src="assets/images/vvalid.png">
+            </div>
+            <div>
+                <mat-card-header>
+                    <div fxLayout="column">
+                        <h1 class="welcome">Hello!</h1>
+                        <p class="description">Please enter your number and select your country code </p>
+                    </div>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="myform">
+                        <form [formGroup]="myForm" (ngSubmit)="onSave()">
+                            <mat-form-field class="myformfield" appearance="outline">
+                                <mat-label>Phone Number</mat-label>
+                                <input matInput formControlName="PhoneNumber">
+                            </mat-form-field><br>
+                            <mat-error class="errormssg" *ngIf="f.PhoneNumber.invalid && f.PhoneNumber.touched">
+                                <p  *ngIf="f.PhoneNumber.errors!.pattern" class="text-danger">Please enter numbers only!</p>
+                            </mat-error>
+                            <mat-error class="errormssg"  *ngIf="f.PhoneNumber.invalid && f.PhoneNumber.touched">
+                                <p *ngIf="f.PhoneNumber.errors" class="text-danger">Please enter your number</p>
+                            </mat-error>
 
-                  <button type="submit" class="submitbutton" mat-raised-button color="primary">Submit</button>
-    
-            </form>
+                            <mat-form-field class="myformfield" appearance="outline" style="width: 250px;">
+                                <mat-label style="font-size: 13px;">Country Code</mat-label>
+                                <mat-select formControlName="Country_Code" name="CountryCode">
+                                    <mat-option *ngFor="let country of countries " [value]="country.alpha2Code">
+                                        {{country.alpha2Code}}</mat-option>
+                                </mat-select>
+                            </mat-form-field><br>
+
+                            <button type="submit" class="submitbutton" mat-raised-button color="primary">Submit</button>
+
+                        </form>
+                    </div>
+
+                </mat-card-content>
+            </div>
         </div>
-       
-    </mat-card-content>
-   
- </mat-card>
 
 
 
-</div> 
+    </mat-card>
 
 
 
 
+</div>
